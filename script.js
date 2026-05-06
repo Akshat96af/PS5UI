@@ -104,7 +104,7 @@ const GAMES = [
     cover: 'https://raw.githubusercontent.com/RaduBratan/CodePen-PS5-UI-concept-assets/master/PS5%20Covers/tsus-cov.jpg',
     bg: 'https://raw.githubusercontent.com/RaduBratan/CodePen-PS5-UI-concept-assets/master/PS5%20Backgrounds/tsus-bg.jpg',
     checkpoints: { name: 'Izuhara', img: 'https://raw.githubusercontent.com/RaduBratan/CodePen-PS5-UI-concept-assets/master/PS5%20Checkpoints/tsus-chk.jpg' },
-    trophies: { last: { name: 'Gathering Storm', img: 'https://raw.githubusercontent.com/RaduBratan/CodePen-PS5-UI-concept-assets/master/PS5%20Achievements/tsus-ach1.png' }, top: { name: 'Living Legend', img: 'https://raw.githubusercontent.com/RaduBratan/CodePen-PS5-UI-concept-assets/master/PS5%20Achievements/tsus-ach2.png' } },
+    trophies: { last: { name: 'Gathering Storm', img: 'https://raw.githubusercontent.com/RaduBratan/CodePen-PS5-UI-concept-assets/master/PS5%20Achievements/sek-ach1.png' }, top: { name: 'Living Legend', img: 'https://raw.githubusercontent.com/RaduBratan/CodePen-PS5-UI-concept-assets/master/PS5%20Achievements/sek-ach2.png' } },
     trophyCount: '10 / 4 / 5 / 1'
   },
   {
@@ -142,6 +142,60 @@ const GAMES = [
     checkpoints: { name: 'Capital Knot City', img: 'https://raw.githubusercontent.com/RaduBratan/CodePen-PS5-UI-concept-assets/master/PS5%20Checkpoints/dthstr-chk.jpg' },
     trophies: { last: { name: 'Delivery Boy', img: 'https://raw.githubusercontent.com/RaduBratan/CodePen-PS5-UI-concept-assets/master/PS5%20Achievements/dthstr-ach1.png' }, top: { name: 'Great Deliverer', img: 'https://raw.githubusercontent.com/RaduBratan/CodePen-PS5-UI-concept-assets/master/PS5%20Achievements/dthstr-ach2.png' } },
     trophyCount: '11 / 9 / 3 / 1'
+  },
+  {
+    title: 'Sekiro: Shadows Die Twice',
+    playTime: 'Last played 5 days ago',
+    cover: 'https://raw.githubusercontent.com/RaduBratan/CodePen-PS5-UI-concept-assets/master/PS5%20Covers/sek-cov.jpg',
+    bg: 'https://raw.githubusercontent.com/RaduBratan/CodePen-PS5-UI-concept-assets/master/PS5%20Backgrounds/sek-bg.jpg',
+    checkpoints: { name: 'Ashina Castle', img: 'https://raw.githubusercontent.com/RaduBratan/CodePen-PS5-UI-concept-assets/master/PS5%20Checkpoints/sek-chk.jpg' },
+    trophies: { last: { name: 'Sword Saint', img: 'https://raw.githubusercontent.com/RaduBratan/CodePen-PS5-UI-concept-assets/master/PS5%20Achievements/sek-ach1.png' }, top: { name: 'Sekiro', img: 'https://raw.githubusercontent.com/RaduBratan/CodePen-PS5-UI-concept-assets/master/PS5%20Achievements/sek-ach2.png' } },
+    trophyCount: '1 / 3 / 0 / 0'
+  },
+  {
+    title: 'Assassin\'s Creed Valhalla',
+    playTime: 'Last played 4 days ago',
+    cover: 'https://raw.githubusercontent.com/RaduBratan/CodePen-PS5-UI-concept-assets/master/PS5%20Covers/ass-cov.jpg',
+    bg: 'https://raw.githubusercontent.com/RaduBratan/CodePen-PS5-UI-concept-assets/master/PS5%20Backgrounds/ass-bg.jpg',
+    checkpoints: { name: 'England', img: 'https://raw.githubusercontent.com/RaduBratan/CodePen-PS5-UI-concept-assets/master/PS5%20Checkpoints/ass-chk.jpg' },
+    trophies: { last: { name: 'Viking Legend', img: 'https://raw.githubusercontent.com/RaduBratan/CodePen-PS5-UI-concept-assets/master/PS5%20Achievements/hit2-ach1.png' }, top: { name: 'Completionist', img: 'https://raw.githubusercontent.com/RaduBratan/CodePen-PS5-UI-concept-assets/master/PS5%20Achievements/hit2-ach2.png' } },
+    trophyCount: '6 / 1 / 2 / 0'
+  },
+  {
+    title: 'Metal Gear Solid V',
+    playTime: 'Last played 3 weeks ago',
+    cover: 'https://raw.githubusercontent.com/RaduBratan/CodePen-PS5-UI-concept-assets/master/PS5%20Covers/mgs5-cov.jpg',
+    bg: 'https://raw.githubusercontent.com/RaduBratan/CodePen-PS5-UI-concept-assets/master/PS5%20Backgrounds/mgs5-bg.jpg',
+    checkpoints: { name: 'Mother Base', img: 'https://raw.githubusercontent.com/RaduBratan/CodePen-PS5-UI-concept-assets/master/PS5%20Checkpoints/mgs5-chk.jpg' },
+    trophies: { last: { name: 'Phantom Pain', img: 'https://raw.githubusercontent.com/RaduBratan/CodePen-PS5-UI-concept-assets/master/PS5%20Achievements/mgs5-ach1.png' }, top: { name: 'Big Boss', img: 'https://raw.githubusercontent.com/RaduBratan/CodePen-PS5-UI-concept-assets/master/PS5%20Achievements/mgs5-ach2.png' } },
+    trophyCount: '1 / 2 / 4 / 0'
+  },
+  {
+    title: 'Hitman 2',
+    playTime: 'Last played 2 months ago',
+    cover: 'https://raw.githubusercontent.com/RaduBratan/CodePen-PS5-UI-concept-assets/master/PS5%20Covers/hit2-cov.jpg',
+    bg: 'https://raw.githubusercontent.com/RaduBratan/CodePen-PS5-UI-concept-assets/master/PS5%20Backgrounds/hit2-bg.jpg',
+    checkpoints: { name: 'Miami', img: 'https://raw.githubusercontent.com/RaduBratan/CodePen-PS5-UI-concept-assets/master/PS5%20Checkpoints/hit2-chk.jpg' },
+    trophies: { last: { name: 'Silent Assassin', img: 'https://raw.githubusercontent.com/RaduBratan/CodePen-PS5-UI-concept-assets/master/PS5%20Achievements/hit2-ach1.png' }, top: { name: 'Agent 47', img: 'https://raw.githubusercontent.com/RaduBratan/CodePen-PS5-UI-concept-assets/master/PS5%20Achievements/hit2-ach2.png' } },
+    trophyCount: '3 / 0 / 0 / 0'
+  },
+  {
+    title: 'Star Wars Battlefront',
+    playTime: 'Last played 6 months ago',
+    cover: 'https://raw.githubusercontent.com/RaduBratan/CodePen-PS5-UI-concept-assets/master/PS5%20Covers/swbf1-cov.jpg',
+    bg: 'https://raw.githubusercontent.com/RaduBratan/CodePen-PS5-UI-concept-assets/master/PS5%20Backgrounds/swbf1-bg.jpg',
+    checkpoints: { name: 'Hoth', img: 'https://raw.githubusercontent.com/RaduBratan/CodePen-PS5-UI-concept-assets/master/PS5%20Checkpoints/swbf1-chk.jpg' },
+    trophies: { last: { name: 'Rebel Hero', img: 'https://raw.githubusercontent.com/RaduBratan/CodePen-PS5-UI-concept-assets/master/PS5%20Achievements/swbf1-ach1.png' }, top: { name: 'Force Wielder', img: 'https://raw.githubusercontent.com/RaduBratan/CodePen-PS5-UI-concept-assets/master/PS5%20Achievements/swbf1-ach2.png' } },
+    trophyCount: '1 / 1 / 0 / 0'
+  },
+  {
+    title: 'Star Wars Battlefront II',
+    playTime: 'Last played 4 months ago',
+    cover: 'https://raw.githubusercontent.com/RaduBratan/CodePen-PS5-UI-concept-assets/master/PS5%20Covers/swbf2-cov.jpg',
+    bg: 'https://raw.githubusercontent.com/RaduBratan/CodePen-PS5-UI-concept-assets/master/PS5%20Backgrounds/swbf2-bg2.jpg',
+    checkpoints: { name: 'Kamino', img: 'https://raw.githubusercontent.com/RaduBratan/CodePen-PS5-UI-concept-assets/master/PS5%20Checkpoints/swbf2-chk.jpg' },
+    trophies: { last: { name: 'Clone Trooper', img: 'https://raw.githubusercontent.com/RaduBratan/CodePen-PS5-UI-concept-assets/master/PS5%20Achievements/swbf2-ach1.png' }, top: { name: 'Galactic Hero', img: 'https://raw.githubusercontent.com/RaduBratan/CodePen-PS5-UI-concept-assets/master/PS5%20Achievements/swbf2-ach2.png' } },
+    trophyCount: '2 / 3 / 0 / 0'
   }
 ];
 let currentScreen = 'boot';
@@ -200,9 +254,48 @@ function initParticles() {
     h = canvas.height = window.innerHeight;
   });
 }
+function initPowerParticles() {
+  const c = document.getElementById('power-particles');
+  if (!c) return;
+  const ctx = c.getContext('2d');
+  c.width = window.innerWidth;
+  c.height = window.innerHeight;
+  const dots = Array.from({length: 60}, () => ({
+    x: Math.random() * c.width,
+    y: Math.random() * c.height,
+    r: Math.random() * 1.5 + 0.3,
+    vx: (Math.random() - 0.5) * 0.15,
+    vy: (Math.random() - 0.5) * 0.15,
+    a: Math.random() * 0.3 + 0.05
+  }));
+  function draw() {
+    if (!document.getElementById('power-overlay') || document.getElementById('power-overlay').style.display === 'none') return;
+    ctx.clearRect(0, 0, c.width, c.height);
+    dots.forEach(d => {
+      d.x += d.vx; d.y += d.vy;
+      if (d.x < 0) d.x = c.width;
+      if (d.x > c.width) d.x = 0;
+      if (d.y < 0) d.y = c.height;
+      if (d.y > c.height) d.y = 0;
+      ctx.beginPath();
+      ctx.arc(d.x, d.y, d.r, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(255,255,255,${d.a})`;
+      ctx.fill();
+    });
+    requestAnimationFrame(draw);
+  }
+  draw();
+}
+function dismissPower() {
+  const p = document.getElementById('power-overlay');
+  if (!p || p.style.display === 'none') return;
+  p.style.opacity = '0';
+  setTimeout(() => { p.style.display = 'none'; startBootSequence(); }, 600);
+}
 function init() {
   initClock();
   initParticles();
+  initPowerParticles();
   document.addEventListener('keydown', handleKeyDown);
   document.getElementById('login-screen').addEventListener('click', (e) => {
     if (currentScreen === 'login') {
@@ -212,15 +305,13 @@ function init() {
   renderGames();
   const powerBtn = document.getElementById('power-overlay');
   if (powerBtn) {
-    powerBtn.addEventListener('click', () => {
-      powerBtn.style.opacity = '0';
-      setTimeout(() => {
-        powerBtn.style.display = 'none';
-        startBootSequence();
-      }, 500);
+    powerBtn.addEventListener('click', dismissPower);
+    document.addEventListener('keydown', function pwrKey(e) {
+      dismissPower();
+      document.removeEventListener('keydown', pwrKey);
     });
   } else {
-    startBootSequence(); 
+    startBootSequence();
   }
 }
 function startBootSequence() {
@@ -238,6 +329,9 @@ function startBootSequence() {
     document.getElementById('boot-screen').classList.remove('active');
     document.getElementById('login-screen').classList.add('active');
     currentScreen = 'login';
+    loginStep = 'users';
+    document.getElementById('controller-prompt').classList.add('hidden');
+    document.getElementById('user-selection').classList.remove('hidden');
     initParticles();
   }, durationMs);
 }
@@ -266,7 +360,7 @@ function login() {
   }, 500);
 }
 function toggleOverlay() {
-  if (isSettingsActive) return; 
+  if (isSettingsActive) return;
   const overlay = document.getElementById('control-center-overlay');
   isOverlayActive = !isOverlayActive;
   if (isOverlayActive) {
@@ -275,7 +369,12 @@ function toggleOverlay() {
   } else {
     playOverlayOutSound();
     overlay.classList.remove('active');
+    closeSidePanel();
   }
+}
+function closeSidePanel() {
+  const sp = document.getElementById('side-panel');
+  if (sp) sp.classList.remove('active');
 }
 function toggleSettings() {
   if (isOverlayActive) return; 
@@ -324,10 +423,12 @@ function logout() {
   isSettingsActive = false;
   document.getElementById('control-center-overlay').classList.remove('active');
   document.getElementById('settings-overlay').classList.remove('active');
+  closeSidePanel();
   document.getElementById('home-screen').classList.remove('active');
   document.getElementById('login-screen').classList.add('active');
   document.getElementById('user-selection').classList.add('hidden');
   document.getElementById('controller-prompt').classList.remove('hidden');
+  playOverlayOutSound();
   initParticles();
 }
 function ccAction(action) {
@@ -336,6 +437,8 @@ function ccAction(action) {
     toggleOverlay();
     return;
   }
+  isOverlayActive = false;
+  document.getElementById('control-center-overlay').classList.remove('active');
   const sidePanel = document.getElementById('side-panel');
   const title = document.getElementById('side-panel-title');
   const content = document.getElementById('side-panel-content');
@@ -356,17 +459,18 @@ function ccAction(action) {
     content.innerHTML = `
       <div class="side-list-item"><div class="text">System Software Update Installed</div></div>
       <div class="side-list-item"><div class="text">God of War Ragnarok download complete</div></div>
+      <div class="side-list-item"><div class="text">Trophy Unlocked: Just the Beginning</div></div>
     `;
   } else if (action === 'Game Base') {
     title.innerText = 'Game Base';
     content.innerHTML = `
       <div class="side-list-item">
-        <img src="https://raw.githubusercontent.com/RaduBratan/CodePen-PS5-UI-concept-assets/master/ps5-user-profile.jpg" style="width:40px; border-radius:50%;">
-        <div class="text">John Doe<br><small style="color:#0f0;">Online</small></div>
+        <img src="https://raw.githubusercontent.com/RaduBratan/CodePen-PS5-UI-concept-assets/master/ps5-user-profile.jpg" style="width:40px; height:40px; border-radius:50%; object-fit:cover;">
+        <div class="text">John Doe<br><small style="color:#4f4;">Online</small></div>
       </div>
       <div class="side-list-item">
-        <div style="width:40px; height:40px; background:#555; border-radius:50%;"></div>
-        <div class="text">Jane Smith<br><small style="color:rgba(255,255,255,0.5);">Offline</small></div>
+        <div style="width:40px; height:40px; background:#333; border-radius:50%;"></div>
+        <div class="text">Jane Smith<br><small style="color:rgba(255,255,255,0.4);">Offline</small></div>
       </div>
     `;
   } else if (action === 'Music') {
@@ -377,21 +481,21 @@ function ccAction(action) {
           <div style="width:40px; height:40px; background:#1DB954; border-radius:50%;"></div>
           <div class="text">Playing: PS5 Ambience<br><small style="color:rgba(255,255,255,0.5);">System Music</small></div>
         </div>
-        <input type="range" style="width:100%; margin-top:15px;" min="0" max="100" value="80">
+        <input type="range" style="width:100%; margin-top:15px; accent-color:white;" min="0" max="100" value="80">
       </div>
     `;
   } else if (action === 'Downloads') {
-    title.innerText = 'Downloads/Uploads';
+    title.innerText = 'Downloads';
     content.innerHTML = `
       <div class="side-list-item" style="flex-direction:column; align-items:stretch;">
-        <div class="text">Cyberpunk 2077 Update<br><small style="color:rgba(255,255,255,0.5);">3.2 GB / 4.5 GB (2 mins left)</small></div>
-        <div style="width:100%; height:6px; background:#333; border-radius:3px; margin-top:10px;">
-          <div style="width:70%; height:100%; background:white; border-radius:3px;"></div>
+        <div class="text">Cyberpunk 2077 Update<br><small style="color:rgba(255,255,255,0.5);">3.2 GB / 4.5 GB</small></div>
+        <div style="width:100%; height:6px; background:rgba(255,255,255,0.1); border-radius:3px; margin-top:10px; overflow:hidden;">
+          <div style="width:70%; height:100%; background:white; border-radius:3px; transition: width 0.3s;"></div>
         </div>
       </div>
     `;
   }
-  sidePanel.classList.add('active');
+  setTimeout(() => sidePanel.classList.add('active'), 100);
 }
 function handleKeyDown(e) {
   if (currentScreen === 'login') {
