@@ -204,8 +204,60 @@ let focusedGameIndex = 0;
 let bgActive = 1;
 let isOverlayActive = false;
 let isSettingsActive = false;
+let isGameDetailOpen = false;
+let isShortcutsOpen = false;
 let currentSettingTabIndex = 0;
 let animationFrameId = null;
+let homeParticleId = null;
+let trophyTimeout = null;
+let friendStatusInterval = null;
+const FRIENDS = [
+  { name: 'John Doe', online: true },
+  { name: 'Jane Smith', online: false },
+  { name: 'Alex Ryder', online: false },
+  { name: 'Sam Wilson', online: true },
+  { name: 'Luna K.', online: false }
+];
+const GAME_DESCS = {
+  "Marvel's Spider-Man": "Experience the cinematic open-world adventure. Swing through a finely detailed New York City as Spider-Man.",
+  "Ghost of Tsushima": "In the late 13th century, the Mongol empire has laid waste to entire nations. Forge a new path as the Ghost.",
+  "Star Wars Jedi: Fallen Order": "A third-person action adventure. A Padawan must complete his training before being hunted by the Empire.",
+  "Horizon Zero Dawn": "Experience Aloy's legendary quest to unravel the mysteries of a future Earth ruled by machines.",
+  "Red Dead Redemption 2": "With federal agents and bounty hunters closing in, Arthur must rob, steal and fight across a rugged heartland.",
+  "Death Stranding": "Traverse a ravaged wasteland and save mankind from the brink of extinction in this genre-defying experience.",
+  "Sekiro: Shadows Die Twice": "Carve your own clever path to vengeance in an all-new adventure from the creators of Dark Souls.",
+  "Assassin's Creed Valhalla": "Become Eivor, a mighty Viking raider, and lead your clan from the icy shores of Norway.",
+  "Metal Gear Solid V": "The ultimate stealth game. Infiltrate enemy strongholds in the open world of 1984 Afghanistan.",
+  "Hitman 2": "Travel the globe and track your targets across exotic sandbox locations in the ultimate spy thriller.",
+  "Star Wars Battlefront": "Fight in epic Star Wars battles on iconic planets. Feel the power of the Dark Side and Light Side.",
+  "Star Wars Battlefront II": "Heroes are born on the battlefront. Embark on an endless Star Wars action experience."
+};
+function saveSettings() {
+  const data = {
+    volume: masterGainNode.gain.value,
+    reverb: wetNode.gain.value,
+    profileName: document.querySelector('.user-card .name')?.innerText || 'Akshat',
+    password: userPassword,
+    lastGame: focusedGameIndex
+  };
+  localStorage.setItem('ps5ui_settings', JSON.stringify(data));
+}
+function loadSettings() {
+  const raw = localStorage.getItem('ps5ui_settings');
+  if (!raw) return;
+  try {
+    const data = JSON.parse(raw);
+    if (data.volume !== undefined) masterGainNode.gain.value = data.volume;
+    if (data.reverb !== undefined) wetNode.gain.value = data.reverb;
+    if (data.profileName) {
+      document.querySelectorAll('.user-card .name').forEach(el => el.innerText = data.profileName);
+    }
+    if (data.password) userPassword = data.password;
+    if (data.lastGame !== undefined) focusedGameIndex = data.lastGame;
+    const volSlider = document.querySelector('#panel-sound input[type=range]');
+    if (volSlider) volSlider.value = data.volume * 100;
+  } catch(e) {}
+}
 function initClock() {
   function update() {
     const now = new Date();
@@ -341,8 +393,52 @@ function advancePrompt() {
   document.getElementById('user-selection').classList.remove('hidden');
   loginStep = 'users';
 }
-function login() {
-  if (userPassword) {
+
+// Add User Profile
+function openAddUserModal() {
+  playNavSound();
+  document.getElementById('add-user-overlay').classList.add('active');
+  document.getElementById('new-user-name').value = '';
+  setTimeout(() => document.getElementById('new-user-name').focus(), 100);
+}
+
+function closeAddUserModal() {
+  playNavSound();
+  document.getElementById('add-user-overlay').classList.remove('active');
+}
+
+function selectAvatar(el) {
+  playNavSound();
+  document.querySelectorAll('.avatar-option').forEach(img => img.classList.remove('selected'));
+  el.classList.add('selected');
+}
+
+function confirmAddUser() {
+  playSelectSound();
+  const nameInput = document.getElementById('new-user-name').value.trim();
+  const name = nameInput || 'New Player';
+  const selectedAvatar = document.querySelector('.avatar-option.selected').src;
+  
+  const container = document.querySelector('.user-cards-container');
+  
+  const newCard = document.createElement('div');
+  newCard.className = 'user-card';
+  newCard.onclick = () => login(name);
+  
+  newCard.innerHTML = `
+    <img src="${selectedAvatar}" alt="User Avatar">
+    <div class="name">${name}</div>
+  `;
+  
+  container.appendChild(newCard);
+  closeAddUserModal();
+  if (isSettingsActive) toggleSettings();
+  showToast(`Profile for ${name} created`);
+}
+
+function login(name) {
+  if (typeof name !== 'string') name = 'Akshat';
+  if (userPassword && name === 'Akshat') {
     const entered = prompt("Enter your Profile PIN:");
     if (entered !== userPassword) {
       showToast("Incorrect PIN. Access Denied.");
@@ -356,7 +452,7 @@ function login() {
   cancelAnimationFrame(animationFrameId);
   updateGameInfo();
   setTimeout(() => {
-    showToast("Welcome back, Player 1");
+    showToast(`Welcome back, ${name}`);
   }, 500);
 }
 function toggleOverlay() {
@@ -402,23 +498,27 @@ function switchSettingTab(el) {
 }
 function updateVolume(val) {
   masterGainNode.gain.value = val / 100;
+  saveSettings();
 }
 function updateReverb(val) {
   wetNode.gain.value = val / 100;
+  saveSettings();
 }
 function updateProfileName(name) {
   const profileElements = document.querySelectorAll('.user-card .name');
   profileElements.forEach(el => el.innerText = name);
   showToast(`Profile name changed to ${name}`);
+  saveSettings();
 }
 let userPassword = null;
 function updateProfilePassword(pass) {
   userPassword = pass;
   showToast('Profile password updated!');
+  saveSettings();
 }
 function logout() {
   currentScreen = 'login';
-  loginStep = 'prompt';
+  loginStep = 'users';
   isOverlayActive = false;
   isSettingsActive = false;
   document.getElementById('control-center-overlay').classList.remove('active');
@@ -426,8 +526,8 @@ function logout() {
   closeSidePanel();
   document.getElementById('home-screen').classList.remove('active');
   document.getElementById('login-screen').classList.add('active');
-  document.getElementById('user-selection').classList.add('hidden');
-  document.getElementById('controller-prompt').classList.remove('hidden');
+  document.getElementById('controller-prompt').classList.add('hidden');
+  document.getElementById('user-selection').classList.remove('hidden');
   playOverlayOutSound();
   initParticles();
 }
@@ -463,16 +563,12 @@ function ccAction(action) {
     `;
   } else if (action === 'Game Base') {
     title.innerText = 'Game Base';
-    content.innerHTML = `
+    content.innerHTML = FRIENDS.map(f => `
       <div class="side-list-item">
-        <img src="https://raw.githubusercontent.com/RaduBratan/CodePen-PS5-UI-concept-assets/master/ps5-user-profile.jpg" style="width:40px; height:40px; border-radius:50%; object-fit:cover;">
-        <div class="text">John Doe<br><small style="color:#4f4;">Online</small></div>
+        <div style="width:40px; height:40px; background:${f.online ? '#1a7d3a' : '#333'}; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:18px; color:white;">${f.name[0]}</div>
+        <div class="text">${f.name}<br><small style="color:${f.online ? '#4f4' : 'rgba(255,255,255,0.4)'};">${f.online ? 'Online' : 'Offline'}</small></div>
       </div>
-      <div class="side-list-item">
-        <div style="width:40px; height:40px; background:#333; border-radius:50%;"></div>
-        <div class="text">Jane Smith<br><small style="color:rgba(255,255,255,0.4);">Offline</small></div>
-      </div>
-    `;
+    `).join('');
   } else if (action === 'Music') {
     title.innerText = 'Spotify';
     content.innerHTML = `
@@ -506,7 +602,11 @@ function handleKeyDown(e) {
     }
   } else if (currentScreen === 'home') {
     if (e.key === 'Escape') {
-      if (isSettingsActive) {
+      if (isGameDetailOpen) {
+        closeGameDetail();
+      } else if (isShortcutsOpen) {
+        toggleShortcuts();
+      } else if (isSettingsActive) {
         toggleSettings();
       } else {
         toggleOverlay();
@@ -539,12 +639,19 @@ function handleKeyDown(e) {
         focusedGameIndex--;
         updateCarousel();
       }
-    } else if (e.key === 'Enter' || e.key === ' ') {
+    } else if (e.key === 'Enter') {
       playGame();
+    } else if (e.key === ' ') {
+      e.preventDefault();
+      openGameDetail();
     } else if (e.key === 'Tab') {
       e.preventDefault();
       const activeTab = document.querySelector('.tab.active').innerText.toLowerCase();
       switchTab(activeTab === 'games' ? 'media' : 'games');
+    } else if (e.key === '?' || e.key === '/') {
+      toggleShortcuts();
+    } else if (e.key === 's' || e.key === 'S') {
+      if (!isShortcutsOpen && !isGameDetailOpen) toggleSettings();
     }
   }
 }
@@ -602,6 +709,7 @@ function updateCarousel() {
   });
   document.getElementById('game-row').style.transform = `translateX(-${offset}px) translateZ(0)`;
   updateGameInfo();
+  saveSettings();
 }
 function updateGameInfo() {
   const g = GAMES[focusedGameIndex];
@@ -678,5 +786,125 @@ function handlePowerLeave() {
   const container = document.getElementById('power-btn-container');
   if (container) container.style.transform = `scale(1) rotateX(0deg) rotateY(0deg)`;
 }
+
+function initHomeParticles() {
+  const canvas = document.getElementById('home-particles');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  let w = canvas.width = window.innerWidth;
+  let h = canvas.height = window.innerHeight;
+  const pts = Array.from({ length: 50 }, () => ({
+    x: Math.random() * w,
+    y: Math.random() * h,
+    r: Math.random() * 1.5 + 0.3,
+    vx: (Math.random() - 0.5) * 0.15,
+    vy: -Math.random() * 0.2 - 0.05,
+    alpha: Math.random() * 0.25 + 0.05
+  }));
+  function render() {
+    if (currentScreen !== 'home') { homeParticleId = null; return; }
+    ctx.clearRect(0, 0, w, h);
+    pts.forEach(p => {
+      p.x += p.vx; p.y += p.vy;
+      if (p.y < -5) { p.y = h + 5; p.x = Math.random() * w; }
+      if (p.x < 0) p.x = w;
+      if (p.x > w) p.x = 0;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(255, 255, 255, ${p.alpha})`;
+      ctx.fill();
+    });
+    homeParticleId = requestAnimationFrame(render);
+  }
+  render();
+  window.addEventListener('resize', () => {
+    w = canvas.width = window.innerWidth;
+    h = canvas.height = window.innerHeight;
+  });
+}
+
+function openGameDetail() {
+  playSelectSound();
+  const g = GAMES[focusedGameIndex];
+  const overlay = document.getElementById('game-detail-overlay');
+  document.getElementById('game-detail-hero').style.backgroundImage = `url('${g.bg}')`;
+  document.getElementById('gd-title').textContent = g.title;
+  document.getElementById('gd-meta').textContent = g.playTime;
+  document.getElementById('gd-desc').textContent = GAME_DESCS[g.title] || 'An incredible gaming experience on PlayStation 5.';
+  document.getElementById('gd-trophies').textContent = g.trophyCount;
+  document.getElementById('gd-checkpoint').textContent = g.checkpoints.name;
+  const ssDiv = document.getElementById('gd-screenshots');
+  ssDiv.innerHTML = `
+    <img src="${g.checkpoints.img}" alt="Screenshot 1" onclick="showToast('Opening screenshot viewer...')">
+    <img src="${g.bg}" alt="Screenshot 2" onclick="showToast('Opening screenshot viewer...')">
+    <img src="${g.trophies.last.img}" alt="Trophy 1" onclick="showToast('Opening screenshot viewer...')">
+    <img src="${g.trophies.top.img}" alt="Trophy 2" onclick="showToast('Opening screenshot viewer...')">
+  `;
+  overlay.classList.add('active');
+  isGameDetailOpen = true;
+}
+
+function closeGameDetail() {
+  playModalOutSound();
+  document.getElementById('game-detail-overlay').classList.remove('active');
+  isGameDetailOpen = false;
+}
+
+function toggleShortcuts() {
+  const overlay = document.getElementById('shortcuts-overlay');
+  isShortcutsOpen = !isShortcutsOpen;
+  if (isShortcutsOpen) {
+    playModalInSound();
+    overlay.classList.add('active');
+  } else {
+    playModalOutSound();
+    overlay.classList.remove('active');
+  }
+}
+
+const TROPHY_NAMES = [
+  'First Steps', 'Completionist', 'True Warrior', 'Speed Demon',
+  'Unstoppable', 'Eagle Eye', 'Shadow Walker', 'Iron Will',
+  'Master Strategist', 'The Chosen One', 'Legend Born', 'No Mercy'
+];
+function triggerRandomTrophy() {
+  const name = TROPHY_NAMES[Math.floor(Math.random() * TROPHY_NAMES.length)];
+  const popup = document.getElementById('trophy-popup');
+  document.getElementById('trophy-popup-name').textContent = name;
+  popup.classList.add('show');
+  if (trophyTimeout) clearTimeout(trophyTimeout);
+  trophyTimeout = setTimeout(() => popup.classList.remove('show'), 4000);
+}
+
+function startFriendStatusUpdates() {
+  friendStatusInterval = setInterval(() => {
+    const f = FRIENDS[Math.floor(Math.random() * FRIENDS.length)];
+    f.online = !f.online;
+    if (f.online) {
+      showToast(`${f.name} is now online`);
+    }
+  }, 25000 + Math.random() * 35000);
+}
+
+let trophyTriggerTimeout = null;
+function scheduleTrophyPopup() {
+  const delay = 30000 + Math.random() * 60000;
+  trophyTriggerTimeout = setTimeout(() => {
+    if (currentScreen === 'home') {
+      triggerRandomTrophy();
+    }
+    scheduleTrophyPopup();
+  }, delay);
+}
+
+const origLogin = login;
+login = function() {
+  origLogin();
+  loadSettings();
+  updateCarousel();
+  initHomeParticles();
+  startFriendStatusUpdates();
+  scheduleTrophyPopup();
+};
 
 window.onload = init;
