@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PlayStation 5 - Ultimate Edition</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <div id="toast-container"></div>
+  <div id="power-overlay" onmousemove="handlePowerHover(event)" onmouseleave="handlePowerLeave()">
+    <div class="power-btn-container" id="power-btn-container">
+      <div class="pulse-ring"></div>
+      <div class="pulse-ring-2"></div>
+      <div class="pulse-ring-3"></div>
+      <div class="power-icon">
+        <div class="power-icon-inner">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+            stroke-linejoin="round">
+            <path d="M18.36 6.64a9 9 0 1 1-12.73 0"></path>
+            <line x1="12" y1="2" x2="12" y2="12"></line>
+          </svg>
+        </div>
+      </div>
+    </div>
+    <div class="power-text">Press to Turn On <span>PS5</span></div>
+  </div>
+  <div id="boot-screen" class="screen active">
+    <img src="assets/sony-logo.png" class="boot-logo" id="sony-logo" alt="Sony Logo">
+    <img src="assets/ps-logo.png" class="boot-logo" id="ps-logo" alt="PlayStation Logo">
+  </div>
+  <div id="login-screen" class="screen">
+    <canvas id="particles"></canvas>
+    <div id="login-content">
+      <div id="controller-prompt">
+        <svg class="prompt-icon" width="100" height="100" viewBox="0 0 24 24" fill="none" stroke="white"
+          stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="2" y="4" width="20" height="16" rx="2" ry="2"></rect>
+          <path d="M6 8h.01M10 8h.01M14 8h.01M18 8h.01M6 12h.01M10 12h.01M14 12h.01M18 12h.01M6 16h12"></path>
+        </svg>
+        <div class="toast">Press <b>Enter</b> or <b>Click</b> to begin</div>
+      </div>
+      <div id="user-selection" class="hidden">
+        <h2>Select a profile</h2>
+        <div class="user-card active" onclick="login()">
+          <img
+            src="https://raw.githubusercontent.com/RaduBratan/CodePen-PS5-UI-concept-assets/master/ps5-user-profile.jpg"
+            alt="User Avatar">
+          <div class="name">Player 1</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="home-screen" class="screen">
+    <div class="bg-layer">
+      <div id="bg-1" class="bg-slide active"></div>
+      <div id="bg-2" class="bg-slide"></div>
+      <div class="bg-gradient"></div>
+    </div>
+    <div class="top-bar">
+      <div class="top-left">
+        <div class="tab active" onclick="switchTab('games')">Games</div>
+        <div class="tab" onclick="switchTab('media')">Media</div>
+      </div>
+      <div class="top-right">
+        <div class="icon-btn" title="Search" onclick="showToast('Search interface opening...')">
+          <svg viewBox="0 0 24 24">
+            <circle cx="11" cy="11" r="6" />
+            <path d="m20 20-3.5-3.5" />
+          </svg>
+        </div>
+        <div class="icon-btn" title="Settings" onclick="toggleSettings()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+            stroke-linejoin="round">
+            <circle cx="12" cy="12" r="3"></circle>
+            <path
+              d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z">
+            </path>
+          </svg>
+        </div>
+        <div class="user-pill" onclick="showToast('Profile opened')">
+          <img
+            src="https://raw.githubusercontent.com/RaduBratan/CodePen-PS5-UI-concept-assets/master/ps5-user-profile.jpg"
+            alt="User Profile">
+          <div class="time" id="top-time">10:42 PM</div>
+        </div>
+      </div>
+    </div>
+    <div id="game-row-container">
+      <div id="game-row"></div>
+    </div>
+    <div id="game-info-container">
+      <div id="game-info-content">
+        <div id="game-play-time">
+          <svg viewBox="0 0 24 24">
+            <path
+              d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z" />
+          </svg> Last played Yesterday
+        </div>
+        <div id="game-title">Game Title</div>
+        <div class="actions">
+          <button class="btn-play" onclick="playGame()">
+            <svg viewBox="0 0 24 24">
+              <path d="M8 5v14l11-7z" />
+            </svg> Play Game
+          </button>
+          <button class="btn-options" onclick="showToast('Game Options opened')">...</button>
+        </div>
+        <div class="activities-scroll" id="activities-track">
+        </div>
+      </div>
+    </div>
+    <div class="pc-hud">
+      <div class="pc-hud-item"><span class="pc-hud-key">Arrows</span> Navigate</div>
+      <div class="pc-hud-item"><span class="pc-hud-key">Enter</span> Select / Play</div>
+      <div class="pc-hud-item"><span class="pc-hud-key">Tab</span> Switch Tabs</div>
+      <div class="pc-hud-item"><span class="pc-hud-key">Esc</span> Control Center</div>
+    </div>
+    <div id="control-center-overlay" class="overlay" onclick="if(event.target === this) toggleOverlay()">
+      <div class="control-center">
+        <div class="cc-item" onclick="ccAction('Home')">
+          <div class="cc-icon"><svg viewBox="0 0 24 24">
+              <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+              <polyline points="9 22 9 12 15 12 15 22"></polyline>
+            </svg></div>
+          <div class="cc-label">Home</div>
+        </div>
+        <div class="cc-item" onclick="ccAction('Switcher')">
+          <div class="cc-icon"><svg viewBox="0 0 24 24">
+              <rect x="4" y="4" width="16" height="16" rx="2" ry="2"></rect>
+              <rect x="9" y="9" width="6" height="6"></rect>
+            </svg></div>
+          <div class="cc-label">Switcher</div>
+        </div>
+        <div class="cc-item" onclick="ccAction('Notifications')">
+          <div class="cc-icon"><svg viewBox="0 0 24 24">
+              <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+              <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+            </svg></div>
+          <div class="cc-label">Notifications</div>
+        </div>
+        <div class="cc-item" onclick="ccAction('Game Base')">
+          <div class="cc-icon"><svg viewBox="0 0 24 24">
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+              <circle cx="9" cy="7" r="4"></circle>
+              <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+              <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+            </svg></div>
+          <div class="cc-label">Game Base</div>
+        </div>
+        <div class="cc-item" onclick="ccAction('Music')">
+          <div class="cc-icon"><svg viewBox="0 0 24 24">
+              <path d="M9 18V5l12-2v13"></path>
+              <circle cx="6" cy="18" r="3"></circle>
+              <circle cx="18" cy="16" r="3"></circle>
+            </svg></div>
+          <div class="cc-label">Music</div>
+        </div>
+        <div class="cc-item" onclick="ccAction('Downloads')">
+          <div class="cc-icon"><svg viewBox="0 0 24 24">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+              <polyline points="7 10 12 15 17 10"></polyline>
+              <line x1="12" y1="15" x2="12" y2="3"></line>
+            </svg></div>
+          <div class="cc-label">Downloads</div>
+        </div>
+        <div class="cc-item" onclick="logout(); toggleOverlay();" style="margin-left: auto;">
+          <div class="cc-icon" style="background: rgba(255,50,50,0.2); color: #ff5555;"><svg viewBox="0 0 24 24">
+              <path d="M18.36 6.64a9 9 0 1 1-12.73 0"></path>
+              <line x1="12" y1="2" x2="12" y2="12"></line>
+            </svg></div>
+          <div class="cc-label">Log Out</div>
+        </div>
+      </div>
+    </div>
+    <div id="settings-overlay" class="overlay" onclick="if(event.target === this) toggleSettings()">
+      <div class="settings-container">
+        <div class="settings-header">
+          <h2>Settings</h2>
+          <button class="settings-close" onclick="toggleSettings()">Esc / Close</button>
+        </div>
+        <div class="settings-body">
+          <div class="settings-sidebar">
+            <div class="setting-tab active" data-target="settings-system" onclick="switchSettingTab(this)">System</div>
+            <div class="setting-tab" data-target="settings-sound" onclick="switchSettingTab(this)">Sound Options</div>
+            <div class="setting-tab" data-target="settings-profile" onclick="switchSettingTab(this)">User Profile</div>
+          </div>
+          <div class="settings-content">
+            <div id="settings-system" class="setting-panel" style="display:block;">
+              <div class="setting-group">
+                <h3>System Software</h3>
+                <div class="setting-item" onclick="showToast('Checking for updates...')">Console Information</div>
+                <div class="setting-item" onclick="showToast('System Software Update and Settings')">System Software
+                  Update and Settings</div>
+                <div class="setting-item" onclick="showToast('Report System Software Errors')">Report System Software
+                  Errors</div>
+              </div>
+              <div class="setting-group">
+                <h3>Language</h3>
+                <div class="setting-item" onclick="showToast('Language settings')">Console Language</div>
+              </div>
+            </div>
+            <div id="settings-sound" class="setting-panel" style="display:none;">
+              <div class="setting-group">
+                <h3>Audio Output Controls</h3>
+                <div class="setting-item no-arrow">
+                  <span>Master Volume</span>
+                  <input type="range" id="master-vol" min="0" max="100" value="80" oninput="updateVolume(this.value)">
+                </div>
+                <div class="setting-item no-arrow">
+                  <span>UI Reverb Environment</span>
+                  <input type="range" id="reverb-vol" min="0" max="100" value="50" oninput="updateReverb(this.value)">
+                </div>
+              </div>
+            </div>
+            <div id="settings-profile" class="setting-panel" style="display:none;">
+              <div class="setting-group">
+                <h3>Account Security</h3>
+                <div class="setting-item no-arrow">
+                  <span>Profile Name</span>
+                  <input type="text" id="profile-name-input" value="Player 1" onchange="updateProfileName(this.value)">
+                </div>
+                <div class="setting-item no-arrow">
+                  <span>Profile Password (PIN)</span>
+                  <input type="password" id="profile-pass-input" placeholder="Set a new PIN..."
+                    onchange="updateProfilePassword(this.value)">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="side-panel">
+        <div id="side-panel-title">Panel</div>
+        <div id="side-panel-content"></div>
+      </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+
+</html>
